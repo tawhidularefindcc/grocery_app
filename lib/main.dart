@@ -1,23 +1,23 @@
-import '/modules/search_product/view/search_product_page.dart';
+import '/modules/cart/data/repository/shopping_repository.dart';
+import '/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'app.dart';
+import 'injection.dart';
+import 'modules/search_product/data/repositories/search_product_repository_interface.dart';
+import 'injection.dart' as di;
 
 void main() {
-  runApp(const MyApp());
-}
+  di.init();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SearchProduct(),
-    );
-  }
+  SearchProductRepository searchProductRepository =
+      locator.get<SearchProductRepository>();
+  ShoppingRepository shoppingRepository = locator.get<ShoppingRepository>();
+  BlocOverrides.runZoned(
+    () => runApp(App(
+      searchProductRepository: searchProductRepository,
+      shoppingRepository: shoppingRepository,
+    )),
+    blocObserver: SimpleBlocObserver(),
+  );
 }
