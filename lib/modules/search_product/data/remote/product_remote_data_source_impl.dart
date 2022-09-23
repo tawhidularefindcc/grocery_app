@@ -20,7 +20,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource{
       Uri.https(
         'panel.supplyline.network',
         '/api/product/search-suggestions',
-        <String, String>{ 'limit':'$limit','offset':'$offset',
+        <String, String>{ 'limit':'$limit',
           'search': query.toString()},
       ),
     );
